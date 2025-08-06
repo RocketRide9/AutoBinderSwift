@@ -19,9 +19,9 @@ jobs:
       - name: Version
         run: swift --version
       - name: Build
-        run: swift build -v
+        run: swift build
       - name: Run
-        run: swift run -v
+        run: swift run
       - name: Upload .vapi
         uses: actions/upload-artifact@v4
         with:
@@ -35,9 +35,9 @@ jobs:
       - name: Version
         run: swift --version
       - name: Build
-        run: swift build -v
+        run: swift build
       - name: Run
-        run: swift run -v
+        run: swift run
       - name: Upload .vapi
         uses: actions/upload-artifact@v4
         with:
