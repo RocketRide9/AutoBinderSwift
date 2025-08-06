@@ -1,0 +1,151 @@
+{
+  "EnumCommentGuides": {
+    "Constants": {
+      "Action": "Skip",
+      "Name": "Constants",
+      "CName": "mixed"
+    },
+    "Error codes": {
+      "Name": "error_code",
+      "CName": "int"
+    },
+    "cl_bool": {
+      "Action": "Skip",
+      "Name": "bool",
+      "CName": "int"
+    },
+    "command execution status": {
+      "Name": "command_exec_status",
+      "CName": "int"
+    },
+    "OpenCL 1.0 cl_device_info enums that were deprecated in OpenCL 1.2": {
+      "CName": "cl_device_info",
+      "Attributes": [
+        {
+          "Name": "Version",
+          "Properties": {
+            "deprecated_since": "1.2"
+          }
+        }
+      ]
+    },
+    "OpenCL 1.0 cl_device_info enums that were deprecated in OpenCL 2.0": {
+      "CName": "cl_device_info",
+      "Attributes": [
+        {
+          "Name": "Version",
+          "Properties": {
+            "deprecated_since": "2.0"
+          }
+        }
+      ]
+    },
+    "OpenCL 1.1 cl_device_info enums that were deprecated in OpenCL 2.0": {
+      "CName": "cl_device_info",
+      "Attributes": [
+        {
+          "Name": "Version",
+          "Properties": {
+            "deprecated_since": "2.0"
+          }
+        }
+      ]
+    },
+    "OpenCL 1.1 cl_device_info enums that were deprecated in OpenCL 3.0": {
+      "CName": "cl_device_info",
+      "Attributes": [
+        {
+          "Name": "Version",
+          "Properties": {
+            "deprecated_since": "3.0"
+          }
+        }
+      ]
+    },
+    "OpenCL 1.2 cl_image_info enums that were deprecated in OpenCL 2.0": {
+      "CName": "cl_image_info",
+      "Attributes": [
+        {
+          "Name": "Version",
+          "Properties": {
+            "deprecated_since": "2.0"
+          }
+        }
+      ]
+    },
+    "OpenCL 2.2 cl_program_info enums that were deprecated in OpenCL 3.0": {
+      "CName": "cl_program_info",
+      "Attributes": [
+        {
+          "Name": "Version",
+          "Properties": {
+            "deprecated_since": "3.0"
+          }
+        }
+      ]
+    },
+    "Misc API enums": {
+      "Action": "Skip"
+    }
+  },
+  "TypeGuides": [
+    {
+      "MatchPattern": "^CL_(?:MAKE_)?VERSION\\w*$",
+      "Action": "Skip",
+      "Transparent": "false"
+    },
+    {
+      "MatchPattern": "^cl_double|cl_float|cl_short|cl_int|cl_long|cl_char|cl_uchar|cl_half|cl_ushort|cl_uint|cl_ulong|cl_GLint|cl_GLuint$",
+      "Action": "Parse",
+      "Transparent": "true"
+    }
+  ],
+  "StructGuides": [
+    {
+      "MatchPattern": "^cl_dx9_surface_info_khr$",
+      "Action": "Skip"
+    },
+    {
+      "MatchPattern": "^cl_name_version\\w*$",
+      "Action": "Skip"
+    }
+  ],
+  "Overrides": {
+    "Enums": [
+      {
+        "Name": "mem_flags",
+        "CName": "cl_mem_flags",
+        "Members": [
+          "CL_MEM_READ_WRITE",
+          "CL_MEM_WRITE_ONLY",
+          "CL_MEM_READ_ONLY",
+          "CL_MEM_USE_HOST_PTR",
+          "CL_MEM_ALLOC_HOST_PTR",
+          "CL_MEM_COPY_HOST_PTR",
+          "CL_MEM_HOST_WRITE_ONLY",
+          "CL_MEM_HOST_READ_ONLY",
+          "CL_MEM_HOST_NO_ACCESS",
+          "CL_MEM_KERNEL_READ_AND_WRITE",
+          "CL_MEM_IMMUTABLE_EXT"
+        ]
+      },
+      {
+        "Name": "svm_mem_flags",
+        "CName": "cl_svm_mem_flags",
+        "Members": [
+          "CL_MEM_READ_WRITE",
+          "CL_MEM_WRITE_ONLY",
+          "CL_MEM_READ_ONLY",
+          "CL_MEM_SVM_FINE_GRAIN_BUFFER",
+          "CL_MEM_SVM_ATOMICS"
+        ]
+      }
+    ],
+    "EnumMembers": [
+      {
+        "CName": "CL_DRIVER_VERSION",
+        "Name": "DRIVER_VERSION"
+      }
+    ]
+  }
+}
