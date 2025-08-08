@@ -1,4 +1,5 @@
 import OrderedCollections
+import Strings
 
 public class Namespace {
     /// Namespace prefix found in function, type and constants names.\
@@ -14,13 +15,32 @@ public class Namespace {
     public let name: String
 
     public var types: OrderedDictionary<String, Type> = [:]
+    // TODO: enums are types too, so they should probably
+    // be stored in types dictionary
+    // Enum.name : Enum
+    public private(set) var enums: [String : Enum] = [:]
 
-    public private(set) var enums: [Enum] = []
+    public var commands: [String : Command] = [:]
 
     public init (prefix: String, name: String)
     {
         self.prefix = prefix;
         self.name = name;
+    }
+
+    public func findType (cname: String) -> (any Type)? {
+        if TypeCollection.basicTypes.contains(cname) {
+            return BasicType(name: cname)
+        }
+        let name = removeNsPrefix(cname, prefix, strict: false)
+        if let t = types[name] {
+            return t
+        }
+        if let t = enums[name] {
+            return t
+        }
+
+        return nil
     }
 
     public func addEnum (_ en: Enum)
@@ -36,6 +56,6 @@ public class Namespace {
         {
             fatalError("Couldn't find type such type: \(en.name)");
         }
-        enums.append(en);
+        enums[en.name] = en;
     }
 }

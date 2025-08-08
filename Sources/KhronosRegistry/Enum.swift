@@ -30,7 +30,7 @@ public class EnumMember {
     }
 }
 
-public class Enum {
+public class Enum : Type {
     public let cName: String
     public let name: String
     public var vendor: String?

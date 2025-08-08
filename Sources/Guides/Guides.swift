@@ -6,7 +6,8 @@ public struct Guides : Decodable
     public let Overrides: Overrides
 
     public let TypeGuides: [TypeGuide]
-    public let StructGuides: [StructGuide]
+    public let StructGuides: [StructGuide] 
+    public let CommandGuides: [CommandGuide]
 
     @MainActor
     public static let guides: Guides = {
@@ -26,6 +27,10 @@ public struct Guides : Decodable
 
     public func findTypeGuide (_ cname: String) -> TypeGuide? {
         TypeGuides.first { cname.contains($0.MatchRegex) }
+    }
+
+    public func findCommandGuide (_ cname: String) -> CommandGuide? {
+        CommandGuides.first { cname.contains($0.MatchRegex) }
     }
 
     public func findEnums (_ memberName: String) -> [Enum] {
@@ -118,6 +123,27 @@ public struct TypeGuide : Decodable
         let values  = try decoder.container(keyedBy: CodingKeys.self)
         Action      = try values.decodeIfPresent(String.self, forKey: .Action)?.intoAction() ?? .Parse
         Transparent = try values.decodeIfPresent(String.self, forKey: .Transparent) == "true";
+
+        let matchPattern    = try values.decode(String.self, forKey: .MatchPattern)
+        MatchRegex          = try Regex.init(matchPattern)
+    }
+}
+
+public struct CommandGuide : Decodable
+{
+    public let MatchRegex: Regex<Substring>
+    // Possible values: Parse, Skip
+    public let Action: ActionType
+
+    private enum CodingKeys: CodingKey {
+      case MatchPattern
+      case Action
+      case Transparent
+    }
+
+    public init(from decoder: any Decoder) throws {
+        let values  = try decoder.container(keyedBy: CodingKeys.self)
+        Action      = try values.decodeIfPresent(String.self, forKey: .Action)?.intoAction() ?? .Parse
 
         let matchPattern    = try values.decode(String.self, forKey: .MatchPattern)
         MatchRegex          = try Regex.init(matchPattern)

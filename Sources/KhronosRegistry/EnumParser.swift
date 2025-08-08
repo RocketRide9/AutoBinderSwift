@@ -117,7 +117,6 @@ class EnumParser {
                         name: name,
                         isBitmask: isBitmask
                     )
-                    en2.isBitmask = isBitmask
                     resEnums.addEnumIfNotExists(en2)
                     resEnums.addMember(en2.name, enMember)
                 }

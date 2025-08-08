@@ -3,9 +3,9 @@ import OrderedCollections
 import Strings
 
 class EnumDraft {
-    var cName: String
-    var name: String
-    var isBitmask: Bool = false
+    let cName: String
+    let name: String
+    let isBitmask: Bool
     var members: [EnumMemberDraft] = []
 
     init(
@@ -51,6 +51,30 @@ public class Registry {
 
         parseTypes(root: root)
         parseEnums(root: root)
+        parseCommands(root: root)
+    }
+
+    @MainActor
+    func parseCommands(root: XMLElement) {
+        let cmdParser = CommandParser(namespacePrefix: namespace.prefix)
+        let fpTypes = cmdParser.parse(root: root, namespace: namespace)
+        var commands: [String : Command] = [:]
+
+        for f in root.elements(forName: "feature") {
+            let stop = f.attribute(forName: "name")!.value == _lastFeature
+
+            cmdParser.pickFromFeature(
+                firstCmds: fpTypes,
+                feat: f,
+                resCmds: &commands
+            )
+
+            if stop {
+                break
+            }
+        }
+
+        namespace.commands = commands
     }
 
     @MainActor
@@ -59,7 +83,6 @@ public class Registry {
         let fpTypes = tParser.parse(root: root)
         var types: OrderedDictionary<String, Type> = [:]
 
-        // TODO: pick types according to features
         for f in root.elements(forName: "feature") {
             let stop = f.attribute(forName: "name")!.value == _lastFeature
 

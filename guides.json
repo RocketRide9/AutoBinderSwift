@@ -110,6 +110,17 @@
       "Action": "Skip"
     }
   ],
+  "CommandGuides": [
+    {
+      "Comment": "DirectX stuff is hard to parse, because it depends on types like ID3D10Buffer, which are defined in other headers and i don't know how to handle them",
+      "MatchPattern": "^\\w+D3D1\\w+$",
+      "Action": "Skip"
+    },
+    {
+      "MatchPattern": "^\\w+DX9\\w+$",
+      "Action": "Skip"
+    }
+  ],
   "Overrides": {
     "Enums": [
       {

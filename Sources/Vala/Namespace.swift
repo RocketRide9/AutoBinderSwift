@@ -51,10 +51,10 @@ class Namespace: Symbol {
         self.identifier = khrNamespace.name
         
         // Convert enums
-        for en in khrNamespace.enums {
-            var valaEn = Enum(identifier: snakeToPascal(en.name))
+        for (_, khrEn) in khrNamespace.enums {
+            var valaEn = Enum(identifier: snakeToPascal(khrEn.name))
             
-            let members = en.members.map { m in
+            let members = khrEn.members.map { m in
                 var attrs: [Attribute] = []
                 if m.isCNameOverriden() {
                     attrs.append(CCode(cname: m.cName))
@@ -68,10 +68,13 @@ class Namespace: Symbol {
             }
             
             valaEn.add(members)
+            if khrEn.isBitmask {
+                valaEn.attributes.append(Flags())
+            }
             valaEn.attributes.append(
                 CCode(
-                    cname: en.cName,
-                    cprefix: en.enumPrefix.uppercased(),
+                    cname: khrEn.cName,
+                    cprefix: khrEn.enumPrefix.uppercased(),
                 )
             )
             enums[valaEn.identifier] = valaEn

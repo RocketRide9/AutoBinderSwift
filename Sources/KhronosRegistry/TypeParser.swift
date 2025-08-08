@@ -43,7 +43,7 @@ class TypeParser {
                     case "struct":
                         registerStruct(structElement: t)
                     default:
-                        print("Unhandled type category \(val)")
+                        print("Skipped \(val)")
                 }
             }
         }
@@ -137,7 +137,8 @@ class TypeParser {
         return res
     }
     
-    @MainActor func pickFromFeature(
+    @MainActor
+    func pickFromFeature(
         firstTypes: OrderedDictionary<String, Type>,
         feat: XMLElement,
         resTypes: inout OrderedDictionary<String, Type>
@@ -152,7 +153,7 @@ class TypeParser {
             
             for el in req.elements {
                 guard el.name == "type" else {
-                    fatalError("expected \"type\", got \"\(el.name!)\"")
+                    fatalError("expected 'type', got '\(el.name!)'")
                 }
                 
                 let typeCName = el.attribute(forName: "name")!.value
@@ -212,7 +213,11 @@ class TypeParser {
         
         for member in structElement.elements(forName: "member") {
             guard let (typeStr, stars, argName) = Function.parseArgument(member.value)
-                else { continue; }
+            else {
+                // TODO: fix parsing to stop skipping
+                print("Skipped function argument")
+                continue
+            }
             let typeNamePair = TypeNamePairDraft(typeStr: typeStr, stars: stars, argName: argName)
             strt.members[argName] = typeNamePair
         }
